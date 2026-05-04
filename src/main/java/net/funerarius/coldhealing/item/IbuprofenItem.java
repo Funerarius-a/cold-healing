@@ -18,9 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class IfakItem extends Item {
+public class IbuprofenItem extends Item {
 
-    public IfakItem(Properties properties) {
+    public IbuprofenItem(Properties properties) {
         super(properties);
     }
 
@@ -39,7 +39,7 @@ public class IfakItem extends Item {
     public int getUseDuration(ItemStack stack) { return 72000; }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.CROSSBOW; }
+    public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.DRINK; }
 
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int count) {
@@ -49,11 +49,11 @@ public class IfakItem extends Item {
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
 
-        if (currentTimer >= 25) {
-            livingEntity.heal(1.0F);
+        if (currentTimer >= 40) {
+            livingEntity.heal(0.0F);
 
-            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.IFAK_REMOVE.get());
-            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.IFAK_ADD.get());
+            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.IBUPROFEN_REMOVE.get());
+            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.IBUPROFEN_ADD.get());
 
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                     SoundEvents.ARMOR_EQUIP_IRON, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -72,12 +72,12 @@ public class IfakItem extends Item {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return 0x0088FF;
+        return 0xf2591d;
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.ifak.tooltip"));
+        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.ibuprofen.tooltip"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

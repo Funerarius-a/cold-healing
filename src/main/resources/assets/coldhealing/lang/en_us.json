@@ -1,6 +1,12 @@
 {
   "item.coldhealing.afak": "Afak",
+  "tooltip.coldhealing.afak.tooltip": "The Advanced First Aid Kit is equipped with tourniquets, gazes, and IV Catheters",
+
   "item.coldhealing.ifak": "Ifak",
+  "tooltip.coldhealing.ifak.tooltip": "The Individual First Aid Kit is equipped with tourniquets and gazes",
+
+  "item.coldhealing.ibuprofen": "Ibuprofen",
+  "tooltip.coldhealing.ibuprofen.tooltip": "The ibuprofen is used to relief pain, with side effects",
 
   "creativetab.coldhealing_tab": "Cold Healing Items"
 }

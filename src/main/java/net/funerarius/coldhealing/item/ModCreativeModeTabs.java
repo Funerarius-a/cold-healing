@@ -19,6 +19,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.AFAK.get());
                         output.accept(ModItems.IFAK.get());
+                        output.accept(ModItems.IBUPROFEN.get());
                     })
                     .build());
 
