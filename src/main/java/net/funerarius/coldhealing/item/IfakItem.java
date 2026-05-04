@@ -50,6 +50,7 @@ public class IfakItem extends Item {
 
             // REMOVE OS EFEITOS LENDO A CONFIGURAÇÃO DO IFAK:
             ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.IFAK_REMOVE.get());
+            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.IFAK_ADD.get());
 
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                     SoundEvents.ARMOR_EQUIP_IRON, SoundSource.PLAYERS, 1.0F, 1.0F);

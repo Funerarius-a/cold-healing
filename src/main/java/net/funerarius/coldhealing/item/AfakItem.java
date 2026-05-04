@@ -59,6 +59,7 @@ public class AfakItem extends Item {
                 livingEntity.heal(1.0F);
 
                 ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE1_REMOVE.get());
+                ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE1_ADD.get());
 
                 // 2. SOM: Som de equipar armadura de Ferro
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
@@ -75,6 +76,7 @@ public class AfakItem extends Item {
                 livingEntity.heal(6.0F);
 
                 ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE2_REMOVE.get());
+                ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE2_ADD.get());
 
                 // 2. SOM: Som de equipar armadura de Netherite (Geralmente mais pesado/metálico)
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
