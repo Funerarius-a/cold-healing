@@ -15,6 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.sounds.SoundEvent;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class IbuprofenItem extends Item {
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                     SoundEvents.ARMOR_EQUIP_IRON, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
+            stack.hurtAndBreak(1, livingEntity, (entity) -> {});
             tag.putInt("HealTimer", 0);
         } else {
             tag.putInt("HealTimer", currentTimer);
@@ -73,6 +74,11 @@ public class IbuprofenItem extends Item {
     @Override
     public int getBarColor(ItemStack stack) {
         return 0xf2591d;
+    }
+
+    @Override
+    public SoundEvent getDrinkingSound() {
+        return SoundEvents.EMPTY;
     }
 
     @Override

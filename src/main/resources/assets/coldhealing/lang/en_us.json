@@ -1,8 +1,8 @@
 {
-  "item.coldhealing.afak": "Afak",
+  "item.coldhealing.afak": "AFAK",
   "tooltip.coldhealing.afak.tooltip": "The Advanced First Aid Kit is equipped with tourniquets, gazes, and IV Catheters",
 
-  "item.coldhealing.ifak": "Ifak",
+  "item.coldhealing.ifak": "IFAK",
   "tooltip.coldhealing.ifak.tooltip": "The Individual First Aid Kit is equipped with tourniquets and gazes",
 
   "item.coldhealing.ibuprofen": "Ibuprofen",
