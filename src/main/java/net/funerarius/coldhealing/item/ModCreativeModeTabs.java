@@ -20,6 +20,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.AFAK.get());
                         output.accept(ModItems.IFAK.get());
                         output.accept(ModItems.IBUPROFEN.get());
+                        output.accept(ModItems.SPLINT.get());
+                        output.accept(ModItems.CMS.get());
                     })
                     .build());
 

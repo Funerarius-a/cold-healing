@@ -8,5 +8,11 @@
   "item.coldhealing.ibuprofen": "Ibuprofen",
   "tooltip.coldhealing.ibuprofen.tooltip": "The ibuprofen is used to relief pain, with side effects",
 
+  "item.coldhealing.splint": "Splint",
+  "tooltip.coldhealing.splint.tooltip": "The Splint is used to immobilize injured bones, joints, or soft tissues",
+
+  "item.coldhealing.cms": "CMS",
+  "tooltip.coldhealing.cms.tooltip": "The CMS is a precise surgical kit, it provides minimal trauma",
+
   "creativetab.coldhealing_tab": "Cold Healing Items"
 }

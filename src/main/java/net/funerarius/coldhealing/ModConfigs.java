@@ -17,11 +17,15 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE2_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IFAK_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CMS_REMOVE;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE1_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE2_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IFAK_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CMS_ADD;
 
     static {
         BUILDER.push("AFAK Settings");
@@ -48,10 +52,26 @@ public class ModConfigs {
 
         BUILDER.push("Ibuprofen Settings");
         IBUPROFEN_REMOVE = BUILDER.comment("Effects removed by the Ibuprofen")
-                .defineList("ibuprofen_remove", List.of("minecraft:poison", "minecraft:wither"), obj -> true);
+                .defineList("ibuprofen_remove", List.of("minecraft:poison"), obj -> true);
 
         IBUPROFEN_ADD = BUILDER.comment("Effects added by the Ibuprofen. Format: \"mod:effect, amplifier, duration_ticks\"")
                 .defineList("ibuprofen_add", List.of("minecraft:weakness, 0, 200", "minecraft:mining_fatigue, 0, 100"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("Splint Settings");
+        SPLINT_REMOVE = BUILDER.comment("Effects removed by the Splint")
+                .defineList("splint_remove", List.of("minecraft:slowness"), obj -> true);
+
+        SPLINT_ADD = BUILDER.comment("Effects added by the Splint. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("splint_add", List.of("minecraft:mining_fatigue, 0, 200"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("CMS Settings");
+        CMS_REMOVE = BUILDER.comment("Effects removed by the CMS")
+                .defineList("cms_remove", List.of("minecraft:slowness"), obj -> true);
+
+        CMS_ADD = BUILDER.comment("Effects added by the CMS. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("cms_add", List.of("minecraft:mining_fatigue, 0, 200", "minecraft:regeneration, 1, 60"), obj -> true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

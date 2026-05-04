@@ -20,6 +20,12 @@ public class ModItems {
     public static final RegistryObject<Item> IBUPROFEN = ITEMS.register("ibuprofen",
             () -> new IbuprofenItem(new Item.Properties().defaultDurability(5)));
 
+    public static final RegistryObject<Item> SPLINT = ITEMS.register("splint",
+            () -> new SplintItem(new Item.Properties().defaultDurability(1)));
+
+    public static final RegistryObject<Item> CMS = ITEMS.register("cms",
+            () -> new CmsItem(new Item.Properties().defaultDurability(3)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
