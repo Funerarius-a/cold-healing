@@ -26,6 +26,15 @@ public class ModItems {
     public static final RegistryObject<Item> CMS = ITEMS.register("cms",
             () -> new CmsItem(new Item.Properties().defaultDurability(3)));
 
+    public static final RegistryObject<Item> HEALTHSTIM = ITEMS.register("healthstim",
+            () -> new HstimItem(new Item.Properties().defaultDurability(1)));
+
+    public static final RegistryObject<Item> ADRENALINESTIM = ITEMS.register("adrenalinestim",
+            () -> new AstimItem(new Item.Properties().defaultDurability(1)));
+
+    public static final RegistryObject<Item> STIM_POUCH = ITEMS.register("stim_pouch",
+            () -> new StimPouchItem(new Item.Properties().stacksTo(1)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

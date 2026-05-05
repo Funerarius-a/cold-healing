@@ -28,6 +28,17 @@ public class IbuprofenItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+
+        if (ModConfigs.hasIncompatibleEffect(player, ModConfigs.IBUPROFEN_INCOMPATIBLE.get())) {
+
+            if (!level.isClientSide) {
+                player.displayClientMessage(
+                        Component.translatable("message.coldhealing.incompatible_effect"), true);
+            }
+
+            return InteractionResultHolder.fail(stack);
+        }
+
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.ARMOR_EQUIP_LEATHER, SoundSource.PLAYERS, 1.0F, 1.0F);
 
@@ -45,6 +56,17 @@ public class IbuprofenItem extends Item {
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int count) {
         if (level.isClientSide) return;
+
+        if (ModConfigs.hasIncompatibleEffect(livingEntity, ModConfigs.IBUPROFEN_INCOMPATIBLE.get())) {
+
+            if (livingEntity instanceof Player player) {
+                player.displayClientMessage(
+                        Component.translatable("message.coldhealing.incompatible_effect"), true);
+            }
+
+            stack.getOrCreateTag().putInt("HealTimer", 0);
+            return;
+        }
 
         CompoundTag tag = stack.getOrCreateTag();
         int currentTimer = tag.getInt("HealTimer");
@@ -74,6 +96,11 @@ public class IbuprofenItem extends Item {
     @Override
     public int getBarColor(ItemStack stack) {
         return 0xf2591d;
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return true;
     }
 
     @Override

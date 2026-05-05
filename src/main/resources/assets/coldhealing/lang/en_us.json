@@ -7,12 +7,22 @@
 
   "item.coldhealing.ibuprofen": "Ibuprofen",
   "tooltip.coldhealing.ibuprofen.tooltip": "The ibuprofen is used to relief pain, with side effects",
+  "message.coldhealing.incompatible_effect": "Cannot use this due to active conditions",
 
   "item.coldhealing.splint": "Splint",
   "tooltip.coldhealing.splint.tooltip": "The Splint is used to immobilize injured bones, joints, or soft tissues",
 
   "item.coldhealing.cms": "CMS",
   "tooltip.coldhealing.cms.tooltip": "The CMS is a precise surgical kit, it provides minimal trauma",
+
+  "item.coldhealing.healthstim": "Health STIM",
+  "tooltip.coldhealing.healthstim.tooltip": "The HSTIM is a quick-use medical stimulant designed for frontline infantry",
+
+  "item.coldhealing.adrenalinestim": "Adrenaline STIM",
+  "tooltip.coldhealing.adrenalinestim.tooltip": "The ASTIM is a quick-use combat enhancer",
+
+  "item.coldhealing.stim_pouch": "Stim pouch",
+  "tooltip.coldhealing.stim_pouch.tooltip": "You can only place stims inside here",
 
   "creativetab.coldhealing_tab": "Cold Healing Items"
 }

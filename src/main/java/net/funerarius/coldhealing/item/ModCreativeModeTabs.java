@@ -22,6 +22,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.IBUPROFEN.get());
                         output.accept(ModItems.SPLINT.get());
                         output.accept(ModItems.CMS.get());
+                        output.accept(ModItems.HEALTHSTIM.get());
+                        output.accept(ModItems.ADRENALINESTIM.get());
+                        output.accept(ModItems.STIM_POUCH.get());
                     })
                     .build());
 

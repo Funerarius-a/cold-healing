@@ -18,9 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SplintItem extends Item {
+public class HstimItem extends Item {
 
-    public SplintItem(Properties properties) {
+    public HstimItem(Properties properties) {
         super(properties);
     }
 
@@ -28,18 +28,8 @@ public class SplintItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (ModConfigs.hasIncompatibleEffect(player, ModConfigs.SPLINT_INCOMPATIBLE.get())) {
-
-            if (!level.isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.coldhealing.incompatible_effect"), true);
-            }
-
-            return InteractionResultHolder.fail(stack);
-        }
-
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.ARMOR_EQUIP_CHAIN, SoundSource.PLAYERS, 1.0F, 1.0F);
+                SoundEvents.ARMOR_EQUIP_TURTLE, SoundSource.PLAYERS, 1.0F, 1.0F);
 
         stack.getOrCreateTag().putInt("HealTimer", 0);
         player.startUsingItem(hand);
@@ -50,35 +40,24 @@ public class SplintItem extends Item {
     public int getUseDuration(ItemStack stack) { return 72000; }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.BRUSH; }
+    public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.BOW; }
 
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int count) {
         if (level.isClientSide) return;
-
-        if (ModConfigs.hasIncompatibleEffect(livingEntity, ModConfigs.SPLINT_INCOMPATIBLE.get())) {
-
-            if (livingEntity instanceof Player player) {
-                player.displayClientMessage(
-                        Component.translatable("message.coldhealing.incompatible_effect"), true);
-            }
-
-            stack.getOrCreateTag().putInt("HealTimer", 0);
-            return;
-        }
 
         CompoundTag tag = stack.getOrCreateTag();
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
 
         if (currentTimer >= 80) {
-            livingEntity.heal(0.0F);
+            livingEntity.heal(6.0F);
 
-            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.SPLINT_REMOVE.get());
-            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.SPLINT_ADD.get());
+            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.HEALTHSTIM_REMOVE.get());
+            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.HEALTHSTIM_ADD.get());
 
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    SoundEvents.ARMOR_EQUIP_DIAMOND, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
 
             stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
             tag.putInt("HealTimer", 0);
@@ -94,7 +73,7 @@ public class SplintItem extends Item {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return 0xe82210;
+        return 0x2d6e4b;
     }
 
     @Override
@@ -104,7 +83,7 @@ public class SplintItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.splint.tooltip"));
+        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.healthstim.tooltip"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

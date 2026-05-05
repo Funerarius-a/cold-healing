@@ -19,6 +19,9 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CMS_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEALTHSTIM_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENALINESTIM_REMOVE;
+
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE1_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE2_ADD;
@@ -26,6 +29,13 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CMS_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEALTHSTIM_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENALINE_ADD;
+
+
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_INCOMPATIBLE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_INCOMPATIBLE;
+
 
     static {
         BUILDER.push("AFAK Settings");
@@ -52,10 +62,13 @@ public class ModConfigs {
 
         BUILDER.push("Ibuprofen Settings");
         IBUPROFEN_REMOVE = BUILDER.comment("Effects removed by the Ibuprofen")
-                .defineList("ibuprofen_remove", List.of("minecraft:poison"), obj -> true);
+                .defineList("ibuprofen_remove", List.of("minecraft:poison", "minecraft:darkness"), obj -> true);
 
         IBUPROFEN_ADD = BUILDER.comment("Effects added by the Ibuprofen. Format: \"mod:effect, amplifier, duration_ticks\"")
-                .defineList("ibuprofen_add", List.of("minecraft:weakness, 0, 200", "minecraft:mining_fatigue, 0, 100"), obj -> true);
+                .defineList("ibuprofen_add", List.of("minecraft:weakness, 0, 800", "minecraft:mining_fatigue, 0, 200"), obj -> true);
+
+        IBUPROFEN_INCOMPATIBLE = BUILDER.comment("List of effects that when present makes the ibuprofen unusable")
+                .defineList("ibuprofen_incompatible", List.of("minecraft:weakness"), obj -> true);
         BUILDER.pop();
 
         BUILDER.push("Splint Settings");
@@ -64,6 +77,9 @@ public class ModConfigs {
 
         SPLINT_ADD = BUILDER.comment("Effects added by the Splint. Format: \"mod:effect, amplifier, duration_ticks\"")
                 .defineList("splint_add", List.of("minecraft:mining_fatigue, 0, 200"), obj -> true);
+
+        SPLINT_INCOMPATIBLE = BUILDER.comment("List of effects that when present makes the splint unusable")
+                .defineList("splint_incompatible", List.of("minecraft:wither", "minecraft:poison", "minecraft:weakness"), obj -> true);
         BUILDER.pop();
 
         BUILDER.push("CMS Settings");
@@ -72,6 +88,22 @@ public class ModConfigs {
 
         CMS_ADD = BUILDER.comment("Effects added by the CMS. Format: \"mod:effect, amplifier, duration_ticks\"")
                 .defineList("cms_add", List.of("minecraft:mining_fatigue, 0, 200", "minecraft:regeneration, 1, 60"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("CMS Settings");
+        HEALTHSTIM_REMOVE = BUILDER.comment("Effects removed by the HStim")
+                .defineList("healthstim_remove", List.of("minecraft:wither"), obj -> true);
+
+        HEALTHSTIM_ADD = BUILDER.comment("Effects added by the AStim. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("healthstim_add", List.of("minecraft:mining_fatigue, 0, 200", "minecraft:regeneration, 1, 60"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("CMS Settings");
+        ADRENALINESTIM_REMOVE = BUILDER.comment("Effects removed by the AStim")
+                .defineList("adrenalinestim_remove", List.of("minecraft:slowness"), obj -> true);
+
+        ADRENALINE_ADD = BUILDER.comment("Effects added by the AStim. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("adrenalinestim_add", List.of("minecraft:speed, 0, 800", "minecraft:regeneration, 0, 400"), obj -> true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();
@@ -114,4 +146,21 @@ public class ModConfigs {
             }
         }
     }
+
+    public static boolean hasIncompatibleEffect(LivingEntity entity, List<? extends String> configList) {
+        for (String effectId : configList) {
+            try {
+                ResourceLocation loc = new ResourceLocation(effectId.trim());
+                MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(loc);
+
+                if (effect != null && entity.hasEffect(effect)) {
+                    return true;
+                }
+            } catch (Exception e) {
+                System.out.println("ColdHealing - Erro no formato incompativel: " + effectId);
+            }
+        }
+        return false;
+    }
+
 }
