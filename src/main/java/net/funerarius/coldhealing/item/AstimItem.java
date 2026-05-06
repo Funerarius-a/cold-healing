@@ -18,10 +18,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class AstimItem extends Item {
+public class AstimItem extends Item implements IStim {
 
-    public AstimItem(Properties properties) {
+    private final float healthActivationThreshold;
+
+    public AstimItem(Properties properties, float healthActivationThreshold) {
         super(properties);
+        this.healthActivationThreshold = healthActivationThreshold;
     }
 
     @Override
@@ -50,14 +53,9 @@ public class AstimItem extends Item {
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
 
-        if (currentTimer >= 80) {
-            livingEntity.heal(2.0F);
+        if (currentTimer >= 30) {
 
-            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.ADRENALINESTIM_REMOVE.get());
-            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.ADRENALINE_ADD.get());
-
-            level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
+            applyStimEffects(livingEntity, stack);
 
             stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
             tag.putInt("HealTimer", 0);
@@ -69,6 +67,29 @@ public class AstimItem extends Item {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
         stack.getOrCreateTag().putInt("HealTimer", 0);
+    }
+
+    @Override
+    public boolean shouldAutoInject(LivingEntity entity, ItemStack stimStack) {
+        if (this.healthActivationThreshold > 0 && entity.getHealth() <= this.healthActivationThreshold) {
+            return true;
+        }
+        if (ModConfigs.hasRemovableEffect(entity, ModConfigs.ADRENALINESTIM_REMOVE.get())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean applyStimEffects(LivingEntity entity, ItemStack stimStack) {
+        entity.heal(2.0F);
+        ModConfigs.removeConfiguredEffects(entity, ModConfigs.ADRENALINESTIM_REMOVE.get());
+        ModConfigs.addConfiguredEffects(entity, ModConfigs.ADRENALINE_ADD.get());
+
+        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),
+                SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
+        return true;
     }
 
     @Override

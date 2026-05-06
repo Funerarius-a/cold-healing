@@ -14,11 +14,17 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.List;
 import java.util.Optional;
 
-public class StimPouchItem extends Item {
+public class StimPouchItem extends Item implements ICurioItem {
     public static final int MAX_SLOTS = 6;
 
     public StimPouchItem(Properties properties) {
@@ -31,8 +37,12 @@ public class StimPouchItem extends Item {
 
         ItemStack itemInSlot = slot.getItem();
         if (itemInSlot.isEmpty()) {
-            removeLastItem(pouch).ifPresent(slot::set);
-            return true;
+            Optional<ItemStack> lastItem = getLastItem(pouch);
+            if (lastItem.isPresent() && slot.mayPlace(lastItem.get())) {
+                removeLastItem(pouch).ifPresent(slot::set);
+                return true;
+            }
+            return false;
         } else {
             if (isValidStim(itemInSlot) && addItem(pouch, itemInSlot)) {
                 return true;
@@ -57,9 +67,47 @@ public class StimPouchItem extends Item {
     }
 
     private boolean isValidStim(ItemStack stack) {
-
-        return true;
+        return stack.getItem() instanceof IStim;
     }
+
+    @Override
+    public void curioTick(SlotContext slotContext, ItemStack pouch) {
+        if (slotContext.entity().level().isClientSide) return;
+
+        LivingEntity entity = slotContext.entity();
+
+        if (!entity.isAlive()) return;
+
+        long lastInjectTime = pouch.getOrCreateTag().getLong("LastInjectTime");
+        long currentTime = entity.level().getGameTime();
+
+            if (currentTime - lastInjectTime < 60) return;
+
+            CompoundTag tag = pouch.getTag();
+            if (tag != null && tag.contains("Items")) {
+                ListTag items = tag.getList("Items", 10);
+
+                for (int i = 0; i < items.size(); i++) {
+                    CompoundTag itemTag = items.getCompound(i);
+                    ItemStack stimStack = ItemStack.of(itemTag);
+
+                    if (stimStack.getItem() instanceof IStim stimItem) {
+
+                        if (stimItem.shouldAutoInject(entity, stimStack)) {
+
+                            // Manda o Stim se aplicar
+                            boolean injected = stimItem.applyStimEffects(entity, stimStack);
+
+                            if (injected) {
+                                items.remove(i);
+                                pouch.getOrCreateTag().putLong("LastInjectTime", currentTime);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     private static boolean addItem(ItemStack pouch, ItemStack newItem) {
         if (newItem.isEmpty()) return false;
@@ -92,6 +140,17 @@ public class StimPouchItem extends Item {
         items.remove(0);
 
         return Optional.of(stack);
+    }
+
+    private static Optional<ItemStack> getLastItem(ItemStack pouch) {
+        CompoundTag tag = pouch.getTag();
+        if (tag == null || !tag.contains("Items")) return Optional.empty();
+
+        ListTag items = tag.getList("Items", 10);
+        if (items.isEmpty()) return Optional.empty();
+
+        CompoundTag itemTag = items.getCompound(0);
+        return Optional.of(ItemStack.of(itemTag));
     }
 
     @Override

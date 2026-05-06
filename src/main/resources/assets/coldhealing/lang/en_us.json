@@ -24,5 +24,7 @@
   "item.coldhealing.stim_pouch": "Stim pouch",
   "tooltip.coldhealing.stim_pouch.tooltip": "You can only place stims inside here",
 
+  "curios.identifier.stim_pouch": "Pouch",
+
   "creativetab.coldhealing_tab": "Cold Healing Items"
 }

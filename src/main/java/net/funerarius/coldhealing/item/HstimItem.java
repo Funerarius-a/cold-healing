@@ -18,10 +18,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class HstimItem extends Item {
+public class HstimItem extends Item implements IStim {
 
-    public HstimItem(Properties properties) {
+    private final float healthActivationThreshold;
+
+    public HstimItem(Properties properties, float healthActivationThreshold) {
         super(properties);
+        this.healthActivationThreshold = healthActivationThreshold;
     }
 
     @Override
@@ -50,14 +53,9 @@ public class HstimItem extends Item {
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
 
-        if (currentTimer >= 80) {
-            livingEntity.heal(6.0F);
+        if (currentTimer >= 30) {
 
-            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.HEALTHSTIM_REMOVE.get());
-            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.HEALTHSTIM_ADD.get());
-
-            level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
+            applyStimEffects(livingEntity, stack);
 
             stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
             tag.putInt("HealTimer", 0);
@@ -69,6 +67,33 @@ public class HstimItem extends Item {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
         stack.getOrCreateTag().putInt("HealTimer", 0);
+    }
+
+    @Override
+    public boolean shouldAutoInject(LivingEntity entity, ItemStack stimStack) {
+        // 1. Checa a Vida
+        if (this.healthActivationThreshold > 0 && entity.getHealth() <= this.healthActivationThreshold) {
+            return true;
+        }
+        // 2. Checa se o player tá com algum debuff (Wither, Veneno) que esse stim sabe curar!
+        if (ModConfigs.hasRemovableEffect(entity, ModConfigs.HEALTHSTIM_REMOVE.get())) {
+            return true;
+        }
+
+        return false; // Se tá de boa, não gasta o stim.
+    }
+
+    @Override
+    public boolean applyStimEffects(LivingEntity entity, ItemStack stimStack) {
+        // Lógica única de aplicação de efeitos! Nada de repetir código.
+        entity.heal(6.0F);
+        ModConfigs.removeConfiguredEffects(entity, ModConfigs.HEALTHSTIM_REMOVE.get());
+        ModConfigs.addConfiguredEffects(entity, ModConfigs.HEALTHSTIM_ADD.get());
+
+        // Som de injeção que você definiu
+        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),
+                SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
+        return true;
     }
 
     @Override

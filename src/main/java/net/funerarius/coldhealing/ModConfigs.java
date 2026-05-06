@@ -163,4 +163,15 @@ public class ModConfigs {
         return false;
     }
 
+    public static boolean hasRemovableEffect(LivingEntity entity, List<? extends String> configList) {
+        for (String effectId : configList) {
+            ResourceLocation loc = new ResourceLocation(effectId.trim());
+            MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(loc);
+            if (effect != null && entity.hasEffect(effect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
