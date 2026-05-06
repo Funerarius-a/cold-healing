@@ -71,26 +71,22 @@ public class HstimItem extends Item implements IStim {
 
     @Override
     public boolean shouldAutoInject(LivingEntity entity, ItemStack stimStack) {
-        // 1. Checa a Vida
         if (this.healthActivationThreshold > 0 && entity.getHealth() <= this.healthActivationThreshold) {
             return true;
         }
-        // 2. Checa se o player tá com algum debuff (Wither, Veneno) que esse stim sabe curar!
         if (ModConfigs.hasRemovableEffect(entity, ModConfigs.HEALTHSTIM_REMOVE.get())) {
             return true;
         }
 
-        return false; // Se tá de boa, não gasta o stim.
+        return false;
     }
 
     @Override
     public boolean applyStimEffects(LivingEntity entity, ItemStack stimStack) {
-        // Lógica única de aplicação de efeitos! Nada de repetir código.
         entity.heal(6.0F);
         ModConfigs.removeConfiguredEffects(entity, ModConfigs.HEALTHSTIM_REMOVE.get());
         ModConfigs.addConfiguredEffects(entity, ModConfigs.HEALTHSTIM_ADD.get());
 
-        // Som de injeção que você definiu
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),
                 SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
         return true;

@@ -94,7 +94,7 @@ public class ModConfigs {
         HEALTHSTIM_REMOVE = BUILDER.comment("Effects removed by the HStim")
                 .defineList("healthstim_remove", List.of("minecraft:wither"), obj -> true);
 
-        HEALTHSTIM_ADD = BUILDER.comment("Effects added by the AStim. Format: \"mod:effect, amplifier, duration_ticks\"")
+        HEALTHSTIM_ADD = BUILDER.comment("Effects added by the HStim. Format: \"mod:effect, amplifier, duration_ticks\"")
                 .defineList("healthstim_add", List.of("minecraft:mining_fatigue, 0, 200", "minecraft:regeneration, 1, 60"), obj -> true);
         BUILDER.pop();
 
