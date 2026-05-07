@@ -53,8 +53,8 @@
     "subtitle": "coldhealing.subtitle.injector_use",
     "sounds":[
       {
-        "name": "coldhealing:item/injector/injector_kit_use",
-        "volume": 0.5,
+        "name": "coldhealing:item/injector/kit_injector_use",
+        "volume": 0.35,
         "pitch": 1.0
       }
     ]
@@ -63,8 +63,8 @@
     "subtitle": "coldhealing.subtitle.injector_drop",
     "sounds":[
       {
-        "name": "coldhealing:item/injector/injector_putaway",
-        "volume": 2.0,
+        "name": "coldhealing:item/injector/injector_drop",
+        "volume": 0.35,
         "pitch": 1.0
       }
     ]
