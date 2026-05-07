@@ -3,7 +3,7 @@ package net.funerarius.coldhealing.item;
 import net.funerarius.coldhealing.ModConfigs;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,6 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.funerarius.coldhealing.client.ModSounds;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
+import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -39,7 +43,7 @@ public class SplintItem extends Item {
         }
 
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.ARMOR_EQUIP_CHAIN, SoundSource.PLAYERS, 1.0F, 1.0F);
+                ModSounds.SPLINT_START.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
         stack.getOrCreateTag().putInt("HealTimer", 0);
         player.startUsingItem(hand);
@@ -71,6 +75,10 @@ public class SplintItem extends Item {
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
 
+        if (currentTimer == 5) {
+                playTrackingSound(level, livingEntity, ModSounds.SPLINT_USE.get());
+            }
+
         if (currentTimer >= 80) {
             livingEntity.heal(0.0F);
 
@@ -78,7 +86,7 @@ public class SplintItem extends Item {
             ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.SPLINT_ADD.get());
 
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    SoundEvents.ARMOR_EQUIP_DIAMOND, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    ModSounds.SPLINT_END.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
             tag.putInt("HealTimer", 0);
@@ -90,6 +98,14 @@ public class SplintItem extends Item {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
         stack.getOrCreateTag().putInt("HealTimer", 0);
+
+        if (!level.isClientSide) {
+            for (Player player : level.players()) {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.connection.send(new ClientboundStopSoundPacket(ModSounds.SPLINT_USE.getId(), SoundSource.PLAYERS));
+                }
+            }
+        }
     }
 
     @Override
@@ -106,5 +122,29 @@ public class SplintItem extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.coldhealing.splint.tooltip"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    private void playTrackingSound(Level level, LivingEntity livingEntity, SoundEvent soundEvent) {
+
+        float randomPitch = 0.8F + level.getRandom().nextFloat() * 0.4F;
+
+        if (livingEntity instanceof Player player) {
+            level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
+                    soundEvent, SoundSource.PLAYERS, 1.0F, randomPitch);
+        }
+
+        if (livingEntity instanceof ServerPlayer serverPlayer) {
+            var soundHolder = net.minecraftforge.registries.ForgeRegistries.SOUND_EVENTS.getHolder(soundEvent).orElse(null);
+            if (soundHolder != null) {
+                serverPlayer.connection.send(new ClientboundSoundEntityPacket(
+                        soundHolder,
+                        SoundSource.PLAYERS,
+                        serverPlayer,
+                        1.0F,
+                        randomPitch,
+                        level.getRandom().nextLong()
+                ));
+            }
+        }
     }
 }

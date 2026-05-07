@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -40,11 +39,17 @@ public class StimPouchItem extends Item implements ICurioItem {
             Optional<ItemStack> lastItem = getLastItem(pouch);
             if (lastItem.isPresent() && slot.mayPlace(lastItem.get())) {
                 removeLastItem(pouch).ifPresent(slot::set);
+
+                player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+
                 return true;
             }
             return false;
         } else {
             if (isValidStim(itemInSlot) && addItem(pouch, itemInSlot)) {
+
+                player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+
                 return true;
             }
         }
@@ -57,9 +62,15 @@ public class StimPouchItem extends Item implements ICurioItem {
 
         if (itemInHand.isEmpty()) {
             removeLastItem(pouch).ifPresent(access::set);
+
+            player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+
             return true;
         } else {
             if (isValidStim(itemInHand) && addItem(pouch, itemInHand)) {
+
+                player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
+
                 return true;
             }
         }
@@ -95,7 +106,6 @@ public class StimPouchItem extends Item implements ICurioItem {
 
                         if (stimItem.shouldAutoInject(entity, stimStack)) {
 
-                            // Manda o Stim se aplicar
                             boolean injected = stimItem.applyStimEffects(entity, stimStack);
 
                             if (injected) {

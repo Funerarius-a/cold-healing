@@ -1,0 +1,102 @@
+{
+  "item.bandage_use": {
+    "subtitle": "coldhealing.subtitle.bandage_use",
+    "sounds":[
+      {
+        "name": "coldhealing:item/bandage/bandage_use",
+        "volume": 0.25,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.bandage_finish": {
+    "subtitle": "coldhealing.subtitle.bandage_finish",
+    "sounds":[
+      {
+        "name": "coldhealing:item/zip/bandage_finish1",
+        "volume": 2.0,
+        "pitch": 1.0
+      },
+      {
+        "name": "coldhealing:item/zip/bandage_finish2",
+        "volume": 2.0,
+        "pitch": 1.0
+      },
+      {
+        "name": "coldhealing:item/zip/bandage_finish3",
+        "volume": 2.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.generic_open": {
+    "subtitle": "coldhealing.subtitle.generic_open",
+    "sounds":[
+      {
+        "name": "coldhealing:item/zip/zip1",
+        "volume": 0.25,
+        "pitch": 1.0
+      },
+      {
+        "name": "coldhealing:item/zip/zip2",
+        "volume": 0.25,
+        "pitch": 1.0
+      },
+      {
+        "name": "coldhealing:item/zip/zip3",
+        "volume": 0.25,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.injector_kit_use": {
+    "subtitle": "coldhealing.subtitle.injector_use",
+    "sounds":[
+      {
+        "name": "coldhealing:item/injector/injector_kit_use",
+        "volume": 0.5,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.injector_putaway": {
+    "subtitle": "coldhealing.subtitle.injector_drop",
+    "sounds":[
+      {
+        "name": "coldhealing:item/injector/injector_putaway",
+        "volume": 2.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.splint_start": {
+    "subtitle": "coldhealing.subtitle.splint_start",
+    "sounds":[
+      {
+        "name": "coldhealing:item/splint/splint_start",
+        "volume": 0.35,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.splint_use": {
+    "subtitle": "coldhealing.subtitle.splint_use",
+    "sounds":[
+      {
+        "name": "coldhealing:item/splint/splint_use",
+        "volume": 0.35,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.splint_end": {
+    "subtitle": "coldhealing.subtitle.splint_end",
+    "sounds":[
+      {
+        "name": "coldhealing:item/splint/splint_end",
+        "volume": 0.35,
+        "pitch": 1.0
+      }
+    ]
+  }
+}

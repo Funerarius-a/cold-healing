@@ -1,6 +1,7 @@
 package net.funerarius.coldhealing;
 
 import com.mojang.logging.LogUtils;
+import net.funerarius.coldhealing.client.ModSounds;
 import net.funerarius.coldhealing.item.ModCreativeModeTabs;
 import net.funerarius.coldhealing.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,6 +31,8 @@ public class ColdHealing
         ModCreativeModeTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
+
+        ModSounds.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
