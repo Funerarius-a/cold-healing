@@ -26,11 +26,17 @@ public class ModItems {
     public static final RegistryObject<Item> CMS = ITEMS.register("cms",
             () -> new CmsItem(new Item.Properties().defaultDurability(3)));
 
-    public static final RegistryObject<Item> HEALTHSTIM = ITEMS.register("healthstim",
-            () -> new HstimItem(new Item.Properties().defaultDurability(1), 6.0F));
+    public static final RegistryObject<Item> P_04_STABILIZER = ITEMS.register("p_04_stabilizer",
+            () -> new StabilizerStimItem(new Item.Properties().defaultDurability(1), 6.0F));
 
-    public static final RegistryObject<Item> ADRENALINESTIM = ITEMS.register("adrenalinestim",
-            () -> new AstimItem(new Item.Properties().defaultDurability(1), 0.0F));
+    public static final RegistryObject<Item> ADRENO_NEURAL_S3 = ITEMS.register("adreno_neural_s3",
+            () -> new AdrenoStimItem(new Item.Properties().defaultDurability(1), 0.0F));
+
+    public static final RegistryObject<Item> HEMATOX_G = ITEMS.register("hematox_g",
+            () -> new HematoxStimItem(new Item.Properties().defaultDurability(1), 10.0F));
+
+    public static final RegistryObject<Item> S9_N_BLOCK = ITEMS.register("s9_n_block",
+            () -> new NblockStimItem(new Item.Properties().defaultDurability(1), 0.0F));
 
     public static final RegistryObject<Item> STIM_POUCH = ITEMS.register("stim_pouch",
             () -> new StimPouchItem(new Item.Properties().stacksTo(1)));

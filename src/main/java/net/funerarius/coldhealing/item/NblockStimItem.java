@@ -1,9 +1,9 @@
 package net.funerarius.coldhealing.item;
 
 import net.funerarius.coldhealing.ModConfigs;
+import net.funerarius.coldhealing.client.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,11 +18,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class AstimItem extends Item implements IStim {
+public class NblockStimItem extends Item implements IStim {
 
     private final float healthActivationThreshold;
 
-    public AstimItem(Properties properties, float healthActivationThreshold) {
+    public NblockStimItem(Properties properties, float healthActivationThreshold) {
         super(properties);
         this.healthActivationThreshold = healthActivationThreshold;
     }
@@ -32,7 +32,7 @@ public class AstimItem extends Item implements IStim {
         ItemStack stack = player.getItemInHand(hand);
 
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.ARMOR_EQUIP_TURTLE, SoundSource.PLAYERS, 1.0F, 1.0F);
+                ModSounds.INJECTOR_START.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
         stack.getOrCreateTag().putInt("HealTimer", 0);
         player.startUsingItem(hand);
@@ -57,7 +57,7 @@ public class AstimItem extends Item implements IStim {
 
             applyStimEffects(livingEntity, stack);
 
-            stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
+            stack.hurtAndBreak(1, livingEntity, (entity) -> {});
             tag.putInt("HealTimer", 0);
         } else {
             tag.putInt("HealTimer", currentTimer);
@@ -74,7 +74,7 @@ public class AstimItem extends Item implements IStim {
         if (this.healthActivationThreshold > 0 && entity.getHealth() <= this.healthActivationThreshold) {
             return true;
         }
-        if (ModConfigs.hasRemovableEffect(entity, ModConfigs.ADRENALINESTIM_REMOVE.get())) {
+        if (ModConfigs.hasRemovableEffect(entity, ModConfigs.NBLOCK_REMOVE.get())) {
             return true;
         }
 
@@ -83,12 +83,12 @@ public class AstimItem extends Item implements IStim {
 
     @Override
     public boolean applyStimEffects(LivingEntity entity, ItemStack stimStack) {
-        entity.heal(2.0F);
-        ModConfigs.removeConfiguredEffects(entity, ModConfigs.ADRENALINESTIM_REMOVE.get());
-        ModConfigs.addConfiguredEffects(entity, ModConfigs.ADRENALINE_ADD.get());
+        entity.heal(6.0F);
+        ModConfigs.removeConfiguredEffects(entity, ModConfigs.NBLOCK_REMOVE.get());
+        ModConfigs.addConfiguredEffects(entity, ModConfigs.NBLOCK_ADD.get());
 
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),
-                SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F);
+                ModSounds.INJECTOR_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         return true;
     }
 
@@ -104,7 +104,7 @@ public class AstimItem extends Item implements IStim {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.adrenalinestim.tooltip"));
+        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.s9_n_block.tooltip"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -19,11 +19,13 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.AFAK.get());
                         output.accept(ModItems.IFAK.get());
+                        output.accept(ModItems.CMS.get());
                         output.accept(ModItems.IBUPROFEN.get());
                         output.accept(ModItems.SPLINT.get());
-                        output.accept(ModItems.CMS.get());
-                        output.accept(ModItems.HEALTHSTIM.get());
-                        output.accept(ModItems.ADRENALINESTIM.get());
+                        output.accept(ModItems.P_04_STABILIZER.get());
+                        output.accept(ModItems.ADRENO_NEURAL_S3.get());
+                        output.accept(ModItems.HEMATOX_G.get());
+                        output.accept(ModItems.S9_N_BLOCK.get());
                         output.accept(ModItems.STIM_POUCH.get());
                     })
                     .build());

@@ -19,8 +19,10 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CMS_REMOVE;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEALTHSTIM_REMOVE;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENALINESTIM_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> P04_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENO_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEMATOX_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> NBLOCK_REMOVE;
 
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE1_ADD;
@@ -29,8 +31,10 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CMS_ADD;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEALTHSTIM_ADD;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENALINE_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> P04_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENO_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEMATOX_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> NBLOCK_ADD;
 
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_INCOMPATIBLE;
@@ -87,23 +91,39 @@ public class ModConfigs {
                 .defineList("cms_remove", List.of("minecraft:slowness"), obj -> true);
 
         CMS_ADD = BUILDER.comment("Effects added by the CMS. Format: \"mod:effect, amplifier, duration_ticks\"")
-                .defineList("cms_add", List.of("minecraft:mining_fatigue, 0, 200", "minecraft:regeneration, 1, 60"), obj -> true);
+                .defineList("cms_add", List.of("minecraft:mining_fatigue, 0, 800", "minecraft:regeneration, 1, 60"), obj -> true);
         BUILDER.pop();
 
-        BUILDER.push("CMS Settings");
-        HEALTHSTIM_REMOVE = BUILDER.comment("Effects removed by the HStim")
-                .defineList("healthstim_remove", List.of("minecraft:wither"), obj -> true);
+        BUILDER.push("P-04 Stabilizer Settings");
+        P04_REMOVE = BUILDER.comment("Effects removed by the P-04")
+                .defineList("p_04_remove", List.of("minecraft:wither"), obj -> true);
 
-        HEALTHSTIM_ADD = BUILDER.comment("Effects added by the HStim. Format: \"mod:effect, amplifier, duration_ticks\"")
-                .defineList("healthstim_add", List.of("minecraft:mining_fatigue, 0, 200", "minecraft:regeneration, 1, 60"), obj -> true);
+        P04_ADD = BUILDER.comment("Effects added by the S3. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("p_04_add", List.of("minecraft:mining_fatigue, 0, 800", "minecraft:regeneration, 1, 60"), obj -> true);
         BUILDER.pop();
 
-        BUILDER.push("CMS Settings");
-        ADRENALINESTIM_REMOVE = BUILDER.comment("Effects removed by the AStim")
-                .defineList("adrenalinestim_remove", List.of("minecraft:slowness"), obj -> true);
+        BUILDER.push("Adreno Neural S3 Settings");
+        ADRENO_REMOVE = BUILDER.comment("Effects removed by the S3")
+                .defineList("adreno_remove", List.of("minecraft:slowness"), obj -> true);
 
-        ADRENALINE_ADD = BUILDER.comment("Effects added by the AStim. Format: \"mod:effect, amplifier, duration_ticks\"")
-                .defineList("adrenalinestim_add", List.of("minecraft:speed, 0, 800", "minecraft:regeneration, 0, 400"), obj -> true);
+        ADRENO_ADD = BUILDER.comment("Effects added by the S3. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("adreno_add", List.of("minecraft:speed, 0, 800"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("Hematox-G Settings");
+        HEMATOX_REMOVE = BUILDER.comment("Effects removed by the Hematox")
+                .defineList("hematox_remove", List.of("minecraft:poison"), obj -> true);
+
+        HEMATOX_ADD = BUILDER.comment("Effects added by the Hematox. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("hematox_add", List.of("minecraft:regeneration, 0, 1200"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("S9 N-BLOCK Settings");
+        NBLOCK_REMOVE = BUILDER.comment("Effects removed by the S9")
+                .defineList("s9_remove", List.of("minecraft:blindness", "minecraft:darkness"), obj -> true);
+
+        NBLOCK_ADD = BUILDER.comment("Effects added by the S9. Format: \"mod:effect, amplifier, duration_ticks\"")
+                .defineList("s9_add", List.of("minecraft:weakness, 0, 800"), obj -> true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

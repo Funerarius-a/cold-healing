@@ -15,11 +15,17 @@
   "item.coldhealing.cms": "CMS",
   "tooltip.coldhealing.cms.tooltip": "The CMS is a precise surgical kit, it provides minimal trauma",
 
-  "item.coldhealing.healthstim": "Health STIM",
-  "tooltip.coldhealing.healthstim.tooltip": "The HSTIM is a quick-use medical stimulant designed for frontline infantry",
+  "item.coldhealing.p_04_stabilizer": "P-04 Stabilizer",
+  "tooltip.coldhealing.p_04_stabilizer.tooltip": "The P-04 Stabilizer is an emergency auto-injector used to rapidly promote tissue regeneration and stabilize critical wounds",
 
-  "item.coldhealing.adrenalinestim": "Adrenaline STIM",
-  "tooltip.coldhealing.adrenalinestim.tooltip": "The ASTIM is a quick-use combat enhancer",
+  "item.coldhealing.adreno_neural_s3": "Adreno Neural S3",
+  "tooltip.coldhealing.adreno_neural_s3.tooltip": "The Adreno-Neural S3 is a potent combat stimulant used to temporarily bypass physical exhaustion and boost stamina",
+
+  "item.coldhealing.hematox_g": "Hematox-G",
+  "tooltip.coldhealing.hematox_g.tooltip": "The Hematox-G is a specialized hemostatic agent used to stop internal bleeding and provide sustained recovery over time",
+
+  "item.coldhealing.s9_n_block": "S9 N-Block",
+  "tooltip.coldhealing.s9_n_block.tooltip": "The S9 N-Block is a synthetic nerve blocker used to suppress severe pain and maintain combat effectiveness, with potential side effects",
 
   "item.coldhealing.stim_pouch": "Stim pouch",
   "tooltip.coldhealing.stim_pouch.tooltip": "You can only place stims inside here",

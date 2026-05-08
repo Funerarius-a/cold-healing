@@ -29,6 +29,16 @@
       }
     ]
   },
+  "item.surgical_kit_use": {
+    "subtitle": "coldhealing.subtitle.surgical_kit_use",
+    "sounds":[
+      {
+        "name": "coldhealing:item/kit/surgical_kit_use",
+        "volume": 0.65,
+        "pitch": 1.0
+      }
+    ]
+  },
   "item.generic_open": {
     "subtitle": "coldhealing.subtitle.generic_open",
     "sounds":[
@@ -53,8 +63,28 @@
     "subtitle": "coldhealing.subtitle.injector_use",
     "sounds":[
       {
-        "name": "coldhealing:item/injector/kit_injector_use",
-        "volume": 0.35,
+        "name": "coldhealing:item/injector/injector_kit_use",
+        "volume": 0.3,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.injector_draw": {
+    "subtitle": "coldhealing.subtitle.injector_draw",
+    "sounds":[
+      {
+        "name": "coldhealing:item/injector/injector_draw",
+        "volume": 0.85,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.injector_use": {
+    "subtitle": "coldhealing.subtitle.injector_use",
+    "sounds": [
+      {
+        "name": "coldhealing:item/injector/injector_use",
+        "volume": 0.85,
         "pitch": 1.0
       }
     ]
@@ -94,6 +124,36 @@
     "sounds":[
       {
         "name": "coldhealing:item/splint/splint_end",
+        "volume": 0.35,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.pills_bottle_open": {
+    "subtitle": "coldhealing.subtitle.pills_bottle_open",
+    "sounds":[
+      {
+        "name": "coldhealing:item/pills/pills_bottle_open",
+        "volume": 0.35,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.pills_bottle_close": {
+    "subtitle": "coldhealing.subtitle.pills_bottle_close",
+    "sounds":[
+      {
+        "name": "coldhealing:item/pills/pills_bottle_close",
+        "volume": 0.35,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "item.pills_bottle_use": {
+    "subtitle": "coldhealing.subtitle.pills_bottle_use",
+    "sounds":[
+      {
+        "name": "coldhealing:item/pills/pills_bottle_use",
         "volume": 0.35,
         "pitch": 1.0
       }
