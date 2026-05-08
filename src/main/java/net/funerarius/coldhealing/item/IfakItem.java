@@ -34,7 +34,11 @@ public class IfakItem extends Item {
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 ModSounds.OPEN_GENERIC.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-        stack.getOrCreateTag().putInt("HealTimer", 0);
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("HealTimer", 0);
+
+        tag.putInt("MaxHealTimer", 25);
+
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
     }

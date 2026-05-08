@@ -34,7 +34,11 @@ public class StabilizerStimItem extends Item implements IStim {
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 ModSounds.INJECTOR_START.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-        stack.getOrCreateTag().putInt("HealTimer", 0);
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("HealTimer", 0);
+
+        tag.putInt("MaxHealTimer", 30);
+
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
     }
@@ -94,7 +98,7 @@ public class StabilizerStimItem extends Item implements IStim {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return 0x2d6e4b;
+        return 0xb70c31;
     }
 
     @Override

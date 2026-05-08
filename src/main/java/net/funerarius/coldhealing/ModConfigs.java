@@ -23,6 +23,7 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENO_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEMATOX_REMOVE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> NBLOCK_REMOVE;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CAR_BANDAGE_REMOVE;
 
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> AFAK_STAGE1_ADD;
@@ -35,10 +36,13 @@ public class ModConfigs {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ADRENO_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HEMATOX_ADD;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> NBLOCK_ADD;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CAR_BANDAGE_ADD;
 
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> IBUPROFEN_INCOMPATIBLE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPLINT_INCOMPATIBLE;
+
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CAR_HEAL_ADD;
 
 
     static {
@@ -124,6 +128,17 @@ public class ModConfigs {
 
         NBLOCK_ADD = BUILDER.comment("Effects added by the S9. Format: \"mod:effect, amplifier, duration_ticks\"")
                 .defineList("s9_add", List.of("minecraft:weakness, 0, 800"), obj -> true);
+        BUILDER.pop();
+
+        BUILDER.push("Car Kit Settings");
+        CAR_HEAL_ADD = BUILDER.comment("Effects added by car heal mode")
+                .defineList("car_heal_add", List.of("minecraft:regeneration, 0, 200"), obj -> true);
+
+        CAR_BANDAGE_REMOVE = BUILDER.comment("Effects removed by the car bandage mode")
+                .defineList("car_bandage_remove", List.of("minecraft:wither", "minecraft:poison"), obj -> true);
+
+        CAR_BANDAGE_ADD = BUILDER.comment("Effects added by the car bandage mode")
+                .defineList("car_bandage_add", List.of(), obj -> true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

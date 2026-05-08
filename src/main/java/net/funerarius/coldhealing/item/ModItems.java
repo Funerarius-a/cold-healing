@@ -41,6 +41,12 @@ public class ModItems {
     public static final RegistryObject<Item> STIM_POUCH = ITEMS.register("stim_pouch",
             () -> new StimPouchItem(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> CAR = ITEMS.register("car",
+            () -> new CarItem(new Item.Properties().defaultDurability(12)));
+
+    public static final RegistryObject<Item> MELATONIN = ITEMS.register("melatonin",
+            () -> new MelatoninItem(new Item.Properties().defaultDurability(5)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

@@ -1,11 +1,14 @@
 package net.funerarius.coldhealing.item;
 
-import net.funerarius.coldhealing.ModConfigs;
+import net.funerarius.coldhealing.client.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,17 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.funerarius.coldhealing.client.ModSounds;
-import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
-import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class IbuprofenItem extends Item {
+public class MelatoninItem extends Item {
 
-    public IbuprofenItem(Properties properties) {
+    public MelatoninItem(Properties properties) {
         super(properties);
     }
 
@@ -33,13 +32,7 @@ public class IbuprofenItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (ModConfigs.hasIncompatibleEffect(player, ModConfigs.IBUPROFEN_INCOMPATIBLE.get())) {
-
-            if (!level.isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.coldhealing.incompatible_effect"), true);
-            }
-
+        if (player.getCooldowns().isOnCooldown(this)) {
             return InteractionResultHolder.fail(stack);
         }
 
@@ -48,8 +41,7 @@ public class IbuprofenItem extends Item {
 
         CompoundTag tag = stack.getOrCreateTag();
         tag.putInt("HealTimer", 0);
-
-        tag.putInt("MaxHealTimer", 40);
+        tag.putInt("MaxHealTimer", 40); // Conecta com a sua barra de Progresso na Tela!
 
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
@@ -65,17 +57,6 @@ public class IbuprofenItem extends Item {
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int count) {
         if (level.isClientSide) return;
 
-        if (ModConfigs.hasIncompatibleEffect(livingEntity, ModConfigs.IBUPROFEN_INCOMPATIBLE.get())) {
-
-            if (livingEntity instanceof Player player) {
-                player.displayClientMessage(
-                        Component.translatable("message.coldhealing.incompatible_effect"), true);
-            }
-
-            stack.getOrCreateTag().putInt("HealTimer", 0);
-            return;
-        }
-
         CompoundTag tag = stack.getOrCreateTag();
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
@@ -85,16 +66,21 @@ public class IbuprofenItem extends Item {
         }
 
         if (currentTimer >= 40) {
-            livingEntity.heal(0.0F);
 
-            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.IBUPROFEN_REMOVE.get());
-            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.IBUPROFEN_ADD.get());
+            if (livingEntity instanceof ServerPlayer serverPlayer) {
+                level.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(),
+                        ModSounds.PILLS_BOTTLE_CLOSE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    ModSounds.PILLS_BOTTLE_CLOSE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                serverPlayer.getPersistentData().putBoolean("MelatoninSleep", true);
+
+                serverPlayer.startSleeping(serverPlayer.blockPosition());
+
+                serverPlayer.getCooldowns().addCooldown(this, 2400);
+            }
 
             stack.hurtAndBreak(1, livingEntity, (entity) -> {});
             tag.putInt("HealTimer", 0);
+            livingEntity.stopUsingItem();
         } else {
             tag.putInt("HealTimer", currentTimer);
         }
@@ -115,27 +101,22 @@ public class IbuprofenItem extends Item {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return 0xf2591d;
+        return 0x462085;
     }
 
     @Override
-    public boolean isBarVisible(ItemStack stack) {
-        return true;
-    }
+    public boolean isBarVisible(ItemStack stack) { return true; }
 
     @Override
-    public SoundEvent getDrinkingSound() {
-        return SoundEvents.EMPTY;
-    }
+    public SoundEvent getDrinkingSound() { return SoundEvents.EMPTY; }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.ibuprofen.tooltip"));
+        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.melatonin.tooltip"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 
     private void playTrackingSound(Level level, LivingEntity livingEntity, SoundEvent soundEvent) {
-
         float randomPitch = 0.8F + level.getRandom().nextFloat() * 0.4F;
 
         if (livingEntity instanceof Player player) {
@@ -147,12 +128,7 @@ public class IbuprofenItem extends Item {
             var soundHolder = net.minecraftforge.registries.ForgeRegistries.SOUND_EVENTS.getHolder(soundEvent).orElse(null);
             if (soundHolder != null) {
                 serverPlayer.connection.send(new ClientboundSoundEntityPacket(
-                        soundHolder,
-                        SoundSource.PLAYERS,
-                        serverPlayer,
-                        1.0F,
-                        randomPitch,
-                        level.getRandom().nextLong()
+                        soundHolder, SoundSource.PLAYERS, serverPlayer, 1.0F, randomPitch, level.getRandom().nextLong()
                 ));
             }
         }

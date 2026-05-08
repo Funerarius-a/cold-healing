@@ -19,6 +19,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.AFAK.get());
                         output.accept(ModItems.IFAK.get());
+                        output.accept(ModItems.CAR.get());
                         output.accept(ModItems.CMS.get());
                         output.accept(ModItems.IBUPROFEN.get());
                         output.accept(ModItems.SPLINT.get());
@@ -27,6 +28,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.HEMATOX_G.get());
                         output.accept(ModItems.S9_N_BLOCK.get());
                         output.accept(ModItems.STIM_POUCH.get());
+                        output.accept(ModItems.MELATONIN.get());
                     })
                     .build());
 

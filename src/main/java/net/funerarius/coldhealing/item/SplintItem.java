@@ -45,7 +45,11 @@ public class SplintItem extends Item {
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 ModSounds.SPLINT_START.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-        stack.getOrCreateTag().putInt("HealTimer", 0);
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("HealTimer", 0);
+
+        tag.putInt("MaxHealTimer", 80);
+
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
     }
