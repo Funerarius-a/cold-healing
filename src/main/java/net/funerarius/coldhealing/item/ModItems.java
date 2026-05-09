@@ -45,7 +45,7 @@ public class ModItems {
             () -> new CarItem(new Item.Properties().defaultDurability(12)));
 
     public static final RegistryObject<Item> MELATONIN = ITEMS.register("melatonin",
-            () -> new MelatoninItem(new Item.Properties().defaultDurability(5)));
+            () -> new MelatoninItem(new Item.Properties().defaultDurability(3)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

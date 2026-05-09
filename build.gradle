@@ -130,6 +130,10 @@ repositories {
         url = "https://maven.theillusivec4.top/"
     }
 
+    maven {
+        url = "https://api.modrinth.com/maven"
+    }
+
 }
 
 dependencies {
@@ -157,6 +161,8 @@ dependencies {
 
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.9.1+1.20.1:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.9.1+1.20.1")
+
+    implementation fg.deobf("maven.modrinth:legendary-survival-overhaul:1.20.1-2.4.2")
 
 }
 

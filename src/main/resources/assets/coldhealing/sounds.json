@@ -4,7 +4,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/bandage/bandage_use",
-        "volume": 0.25,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -14,17 +14,17 @@
     "sounds":[
       {
         "name": "coldhealing:item/zip/bandage_finish1",
-        "volume": 2.0,
+        "volume": 3.0,
         "pitch": 1.0
       },
       {
         "name": "coldhealing:item/zip/bandage_finish2",
-        "volume": 2.0,
+        "volume": 3.0,
         "pitch": 1.0
       },
       {
         "name": "coldhealing:item/zip/bandage_finish3",
-        "volume": 2.0,
+        "volume": 3.0,
         "pitch": 1.0
       }
     ]
@@ -34,7 +34,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/kit/surgical_kit_use",
-        "volume": 0.65,
+        "volume": 1.25,
         "pitch": 1.0
       }
     ]
@@ -44,17 +44,17 @@
     "sounds":[
       {
         "name": "coldhealing:item/zip/zip1",
-        "volume": 0.25,
+        "volume": 0.5,
         "pitch": 1.0
       },
       {
         "name": "coldhealing:item/zip/zip2",
-        "volume": 0.25,
+        "volume": 0.5,
         "pitch": 1.0
       },
       {
         "name": "coldhealing:item/zip/zip3",
-        "volume": 0.25,
+        "volume": 0.5,
         "pitch": 1.0
       }
     ]
@@ -64,7 +64,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/injector/injector_kit_use",
-        "volume": 0.3,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -74,7 +74,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/injector/injector_draw",
-        "volume": 0.85,
+        "volume": 1.75,
         "pitch": 1.0
       }
     ]
@@ -84,7 +84,7 @@
     "sounds": [
       {
         "name": "coldhealing:item/injector/injector_use",
-        "volume": 0.85,
+        "volume": 1.25,
         "pitch": 1.0
       }
     ]
@@ -94,7 +94,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/injector/injector_drop",
-        "volume": 0.35,
+        "volume": 0.3,
         "pitch": 1.0
       }
     ]
@@ -104,7 +104,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/splint/splint_start",
-        "volume": 0.35,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -114,7 +114,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/splint/splint_use",
-        "volume": 0.35,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -124,7 +124,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/splint/splint_end",
-        "volume": 0.35,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -134,7 +134,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/pills/pills_bottle_open",
-        "volume": 0.35,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -144,7 +144,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/pills/pills_bottle_close",
-        "volume": 0.35,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]
@@ -154,7 +154,7 @@
     "sounds":[
       {
         "name": "coldhealing:item/pills/pills_bottle_use",
-        "volume": 0.35,
+        "volume": 1.0,
         "pitch": 1.0
       }
     ]

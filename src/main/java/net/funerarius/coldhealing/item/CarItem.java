@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.funerarius.coldhealing.compat.LsoCompat;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -96,6 +97,10 @@ public class CarItem extends Item {
                 livingEntity.heal(4.0F);
 
                 ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.CAR_HEAL_ADD.get());
+
+                if (livingEntity instanceof Player player) {
+                    LsoCompat.healMostDamagedLimb(player, 0.45F);
+                }
 
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                         ModSounds.INJECTOR_PUTAWAY.get(), SoundSource.PLAYERS, 1.0F, 1.0F);

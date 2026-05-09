@@ -18,6 +18,7 @@ import net.funerarius.coldhealing.client.ModSounds;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.funerarius.coldhealing.compat.LsoCompat;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -66,6 +67,10 @@ public class IfakItem extends Item {
 
             ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.IFAK_REMOVE.get());
             ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.IFAK_ADD.get());
+
+            if (livingEntity instanceof Player player) {
+                LsoCompat.healMostDamagedLimb(player, 0.1F);
+            }
 
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                     ModSounds.BANDAGE_FINISH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);

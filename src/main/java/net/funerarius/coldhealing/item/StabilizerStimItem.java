@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.funerarius.coldhealing.compat.LsoCompat;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -90,6 +91,10 @@ public class StabilizerStimItem extends Item implements IStim {
         entity.heal(6.0F);
         ModConfigs.removeConfiguredEffects(entity, ModConfigs.P04_REMOVE.get());
         ModConfigs.addConfiguredEffects(entity, ModConfigs.P04_ADD.get());
+
+        if (entity instanceof Player player) {
+            LsoCompat.healSpecificLimbs(player, 0.2F, "CHEST", "HEAD", "LEFT_ARM", "RIGHT_ARM");
+        }
 
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),
                 ModSounds.INJECTOR_USE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);

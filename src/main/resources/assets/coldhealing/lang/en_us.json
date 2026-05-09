@@ -33,7 +33,7 @@
   "item.coldhealing.car": "CAR Medkit",
   "tooltip.coldhealing.car.tooltip": "The CAR is a versatile medical kit, providing both trauma, and light bleed stoppage",
 
-  "item.melatonin.car": "Melatonin",
+  "item.coldhealing.melatonin": "Melatonin",
   "tooltip.coldhealing.melatonin.tooltip": "The melatonin is used to induce deep sleep, with mild drowsiness upon waking",
 
   "curios.identifier.stim_pouch": "Pouch",

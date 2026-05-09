@@ -18,6 +18,7 @@ import net.funerarius.coldhealing.client.ModSounds;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.funerarius.coldhealing.compat.LsoCompat;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -81,6 +82,10 @@ public class AfakItem extends Item {
                 ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE1_REMOVE.get());
                 ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE1_ADD.get());
 
+                if (livingEntity instanceof Player player) {
+                    LsoCompat.healMostDamagedLimb(player, 0.05F);
+                }
+
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                         ModSounds.BANDAGE_FINISH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
@@ -98,6 +103,10 @@ public class AfakItem extends Item {
 
                 ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE2_REMOVE.get());
                 ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE2_ADD.get());
+
+                if (livingEntity instanceof Player player) {
+                    LsoCompat.healAllLimbs(player, 0.3F);
+                }
 
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                         ModSounds.INJECTOR_PUTAWAY.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
