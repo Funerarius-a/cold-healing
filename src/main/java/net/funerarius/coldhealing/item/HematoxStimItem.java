@@ -93,7 +93,7 @@ public class HematoxStimItem extends Item implements IStim {
         ModConfigs.addConfiguredEffects(entity, ModConfigs.HEMATOX_ADD.get());
 
         if (entity instanceof Player player) {
-            LsoCompat.healAllLimbs(player, 0.25F);
+            LsoCompat.healAllLimbs(player, 0.25F, 800);
         }
 
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),

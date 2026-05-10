@@ -69,7 +69,7 @@ public class IfakItem extends Item {
             ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.IFAK_ADD.get());
 
             if (livingEntity instanceof Player player) {
-                LsoCompat.healMostDamagedLimb(player, 0.1F);
+                LsoCompat.healMostDamagedLimb(player, 0.1F, 60);
             }
 
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),

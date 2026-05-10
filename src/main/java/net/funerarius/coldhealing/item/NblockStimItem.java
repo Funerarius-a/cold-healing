@@ -93,7 +93,7 @@ public class NblockStimItem extends Item implements IStim {
         ModConfigs.addConfiguredEffects(entity, ModConfigs.NBLOCK_ADD.get());
 
         if (entity instanceof Player player) {
-            LsoCompat.healSpecificLimbs(player, 0.25F, "CHEST", "HEAD");
+            LsoCompat.healSpecificLimbs(player, 0.25F, 120, "CHEST", "HEAD");
         }
 
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),

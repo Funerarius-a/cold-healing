@@ -93,7 +93,7 @@ public class StabilizerStimItem extends Item implements IStim {
         ModConfigs.addConfiguredEffects(entity, ModConfigs.P04_ADD.get());
 
         if (entity instanceof Player player) {
-            LsoCompat.healSpecificLimbs(player, 0.2F, "CHEST", "HEAD", "LEFT_ARM", "RIGHT_ARM");
+            LsoCompat.healSpecificLimbs(player, 0.2F, 80, "CHEST", "HEAD", "LEFT_ARM", "RIGHT_ARM");
         }
 
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),

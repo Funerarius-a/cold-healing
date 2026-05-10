@@ -45,11 +45,7 @@ public class MelatoninEvents {
                 if (sleepTimer >= 100) {
                     ServerLevel level = (ServerLevel) player.level();
 
-                    level.setDayTime(level.getDayTime() + 7000);
-
-                    if (level.isRaining() || level.isThundering()) {
-                        level.setWeatherParameters(6000, 0, false, false);
-                    }
+                    level.setDayTime(level.getDayTime() + 8500);
 
                     player.stopSleeping();
 

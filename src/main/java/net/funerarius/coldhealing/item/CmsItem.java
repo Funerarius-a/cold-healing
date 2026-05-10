@@ -52,31 +52,39 @@ public class CmsItem extends Item {
 
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int count) {
-        if (level.isClientSide) return;
 
         CompoundTag tag = stack.getOrCreateTag();
         int currentTimer = tag.getInt("HealTimer");
         currentTimer++;
 
         if (currentTimer == 5) {
-            playTrackingSound(level, livingEntity, ModSounds.SURGICAL_KIT_USE.get());
+            if (!level.isClientSide) {
+                playTrackingSound(level, livingEntity, ModSounds.SURGICAL_KIT_USE.get());
+            }
         }
 
         if (currentTimer >= 270) {
-            livingEntity.heal(1.0F);
 
-            ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.CMS_REMOVE.get());
-            ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.CMS_ADD.get());
+            if (!level.isClientSide) {
+                livingEntity.heal(1.0F);
 
-            if (livingEntity instanceof Player player) {
-                LsoCompat.tryRestoreBrokenLimb(player);
+                ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.CMS_REMOVE.get());
+                ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.CMS_ADD.get());
+
+                level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
+                        ModSounds.OPEN_GENERIC.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+
+                stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
+            }
+            else {
+                if (livingEntity instanceof Player player) {
+                    LsoCompat.openLsoHealingScreen(player, stack);
+                }
             }
 
-            level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    ModSounds.OPEN_GENERIC.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-
-            stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
             tag.putInt("HealTimer", 0);
+            livingEntity.stopUsingItem();
+
         } else {
             tag.putInt("HealTimer", currentTimer);
         }

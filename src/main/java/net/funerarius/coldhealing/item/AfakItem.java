@@ -83,7 +83,7 @@ public class AfakItem extends Item {
                 ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE1_ADD.get());
 
                 if (livingEntity instanceof Player player) {
-                    LsoCompat.healMostDamagedLimb(player, 0.05F);
+                    LsoCompat.healMostDamagedLimb(player, 0.05F, 60);
                 }
 
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
@@ -105,7 +105,7 @@ public class AfakItem extends Item {
                 ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.AFAK_STAGE2_ADD.get());
 
                 if (livingEntity instanceof Player player) {
-                    LsoCompat.healAllLimbs(player, 0.3F);
+                    LsoCompat.healAllLimbs(player, 0.3F, 400);
                 }
 
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),

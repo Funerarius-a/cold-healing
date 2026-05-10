@@ -99,7 +99,7 @@ public class CarItem extends Item {
                 ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.CAR_HEAL_ADD.get());
 
                 if (livingEntity instanceof Player player) {
-                    LsoCompat.healMostDamagedLimb(player, 0.45F);
+                    LsoCompat.healMostDamagedLimb(player, 0.45F, 200);
                 }
 
                 level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),

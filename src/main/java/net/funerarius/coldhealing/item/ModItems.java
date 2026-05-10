@@ -15,7 +15,7 @@ public class ModItems {
             () -> new AfakItem(new Item.Properties().defaultDurability(10)));
 
     public static final RegistryObject<Item> IFAK = ITEMS.register("ifak",
-            () -> new IfakItem(new Item.Properties().defaultDurability(7)));
+            () -> new IfakItem(new Item.Properties().defaultDurability(8)));
 
     public static final RegistryObject<Item> IBUPROFEN = ITEMS.register("ibuprofen",
             () -> new IbuprofenItem(new Item.Properties().defaultDurability(5)));

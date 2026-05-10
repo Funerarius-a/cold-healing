@@ -87,7 +87,7 @@ public class ModConfigs {
                 .defineList("splint_add", List.of("minecraft:mining_fatigue, 0, 200"), obj -> true);
 
         SPLINT_INCOMPATIBLE = BUILDER.comment("List of effects that when present makes the splint unusable")
-                .defineList("splint_incompatible", List.of("minecraft:wither", "minecraft:poison", "minecraft:weakness"), obj -> true);
+                .defineList("splint_incompatible", List.of("minecraft:wither", "minecraft:poison"), obj -> true);
         BUILDER.pop();
 
         BUILDER.push("CMS Settings");

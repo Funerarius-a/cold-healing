@@ -93,7 +93,7 @@ public class AdrenoStimItem extends Item implements IStim {
         ModConfigs.addConfiguredEffects(entity, ModConfigs.ADRENO_ADD.get());
 
         if (entity instanceof Player player) {
-            LsoCompat.healSpecificLimbs(player, 0.25F, "LEFT_LEG", "RIGHT_LEG");
+            LsoCompat.healSpecificLimbs(player, 0.25F, 80, "LEFT_LEG", "RIGHT_LEG");
         }
 
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(),
