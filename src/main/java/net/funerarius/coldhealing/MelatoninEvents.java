@@ -10,6 +10,7 @@ import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraft.network.chat.Component;
 
 @Mod.EventBusSubscriber(modid = ColdHealing.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class MelatoninEvents {
@@ -38,7 +39,7 @@ public class MelatoninEvents {
         for (Player player : level.players()) {
             if (player.isSleeping() && player.getPersistentData().getBoolean("MelatoninSleep")) {
                 long playerTarget = player.getPersistentData().getLong("MelatoninTargetTime");
-                // Se houver múltiplos jogadores, pegamos o que quer acordar mais cedo
+
                 if (targetTime == -1 || playerTarget < targetTime) {
                     targetTime = playerTarget;
                 }
@@ -58,9 +59,27 @@ public class MelatoninEvents {
     public static void onWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         CompoundTag data = player.getPersistentData();
+
         if (data.getBoolean("MelatoninSleep")) {
+
+            if (!player.level().isClientSide) {
+                long startTime = data.getLong("MelatoninStartTime");
+                long currentTime = player.level().getDayTime();
+                long ticksSlept = currentTime - startTime;
+
+                if (ticksSlept > 100) {
+
+                    int hours = (int) (ticksSlept / 1000);
+                    int remainder = (int) (ticksSlept % 1000);
+                    int minutes = (int) ((remainder / 1000.0) * 60);
+
+                    player.sendSystemMessage(Component.literal("§uYou slept for " + hours + " hours and " + minutes + " minutes."));
+                }
+            }
+
             data.remove("MelatoninSleep");
             data.remove("MelatoninTargetTime");
+            data.remove("MelatoninStartTime");
         }
     }
 }

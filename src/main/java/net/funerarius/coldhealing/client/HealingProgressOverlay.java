@@ -23,7 +23,9 @@ public class HealingProgressOverlay {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player == null || !player.isUsingItem()) return;
+        if (player == null || !player.isUsingItem() || player.isSleeping()) return;
+
+//      if (player == null || !player.isUsingItem()) return;
 
         ItemStack stack = player.getUseItem();
         CompoundTag tag = stack.getTag();
@@ -32,12 +34,12 @@ public class HealingProgressOverlay {
             int currentTimer = tag.getInt("HealTimer");
             int maxTimer = tag.getInt("MaxHealTimer");
 
-            if (maxTimer <= 0) return;
+            if (currentTimer <= 0 || maxTimer <= 0) return;
 
             float progress = (float) currentTimer / maxTimer;
             progress = Math.max(0, Math.min(1, progress));
 
-            int frameIndex = (int) (progress * 11);
+            int frameIndex = Math.min(11, (int) (progress * 12));
 
             int x = (width / 2) - 30;
             int y = (height / 2) + 5;
