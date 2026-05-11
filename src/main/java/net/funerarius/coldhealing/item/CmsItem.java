@@ -2,142 +2,34 @@ package net.funerarius.coldhealing.item;
 
 import net.funerarius.coldhealing.ModConfigs;
 import net.funerarius.coldhealing.client.ModSounds;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.funerarius.coldhealing.compat.LsoCompat;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.level.Level;
-import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.funerarius.coldhealing.compat.LsoCompat;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class CmsItem extends Item {
+public class CmsItem extends BaseHealingItem {
 
     public CmsItem(Properties properties) {
         super(properties);
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                ModSounds.OPEN_GENERIC.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putInt("HealTimer", 0);
-
-        tag.putInt("MaxHealTimer", 270);
-
-        player.startUsingItem(hand);
-        return InteractionResultHolder.consume(stack);
-    }
+    @Override public int getUseTicks(ItemStack stack) { return 270; }
+    @Override public SoundEvent getOpenSound() { return ModSounds.OPEN_GENERIC.get(); }
+    @Override public SoundEvent getUseSound(ItemStack stack) { return ModSounds.SURGICAL_KIT_USE.get(); }
+    @Override public SoundEvent getFinishSound(ItemStack stack) { return ModSounds.OPEN_GENERIC.get(); }
+    @Override public int getItemBarColor(ItemStack stack) { return 0x24c1ed; }
+    @Override public String getTooltipKey() { return "tooltip.coldhealing.cms.tooltip"; }
 
     @Override
-    public int getUseDuration(ItemStack stack) { return 72000; }
+    public void applyCureServer(LivingEntity entity, ItemStack stack) {
+        entity.heal(1.0F);
 
-    @Override
-    public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.CROSSBOW; }
+        ModConfigs.removeConfiguredEffects(entity, ModConfigs.CMS_REMOVE.get());
+        ModConfigs.addConfiguredEffects(entity, ModConfigs.CMS_ADD.get());
 
-    @Override
-    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int count) {
-
-        CompoundTag tag = stack.getOrCreateTag();
-        int currentTimer = tag.getInt("HealTimer");
-        currentTimer++;
-
-        if (currentTimer == 5) {
-            if (!level.isClientSide) {
-                playTrackingSound(level, livingEntity, ModSounds.SURGICAL_KIT_USE.get());
-            }
-        }
-
-        if (currentTimer >= 270) {
-
-            if (!level.isClientSide) {
-                livingEntity.heal(1.0F);
-
-                ModConfigs.removeConfiguredEffects(livingEntity, ModConfigs.CMS_REMOVE.get());
-                ModConfigs.addConfiguredEffects(livingEntity, ModConfigs.CMS_ADD.get());
-
-                level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                        ModSounds.OPEN_GENERIC.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-
-                stack.hurtAndBreak(1, livingEntity, (entity) -> entity.broadcastBreakEvent(livingEntity.getUsedItemHand()));
-            }
-            else {
-                if (livingEntity instanceof Player player) {
-                    LsoCompat.openLsoHealingScreen(player, stack);
-                }
-            }
-
-            tag.putInt("HealTimer", 0);
-            livingEntity.stopUsingItem();
-
-        } else {
-            tag.putInt("HealTimer", currentTimer);
-        }
-    }
-
-    @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
-        stack.getOrCreateTag().putInt("HealTimer", 0);
-
-        if (!level.isClientSide) {
-            for (Player player : level.players()) {
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.connection.send(new ClientboundStopSoundPacket(ModSounds.SURGICAL_KIT_USE.getId(), SoundSource.PLAYERS));
-                }
-            }
-        }
-    }
-
-    @Override
-    public int getBarColor(ItemStack stack) {
-        return 0x24c1ed;
-    }
-
-    @Override
-    public boolean isBarVisible(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.coldhealing.cms.tooltip"));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-    private void playTrackingSound(Level level, LivingEntity livingEntity, SoundEvent soundEvent) {
-
-        if (livingEntity instanceof Player player) {
-            level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                    soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F);
-        }
-
-        if (livingEntity instanceof ServerPlayer serverPlayer) {
-            var soundHolder = net.minecraftforge.registries.ForgeRegistries.SOUND_EVENTS.getHolder(soundEvent).orElse(null);
-            if (soundHolder != null) {
-                serverPlayer.connection.send(new ClientboundSoundEntityPacket(
-                        soundHolder,
-                        SoundSource.PLAYERS,
-                        serverPlayer,
-                        1.0F,
-                        1.0F,
-                        level.getRandom().nextLong()
-                ));
-            }
+        if (entity instanceof Player player) {
+            LsoCompat.tryRestoreBrokenLimb(player);
         }
     }
 }

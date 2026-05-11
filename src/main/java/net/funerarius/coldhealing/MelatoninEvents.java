@@ -1,12 +1,12 @@
 package net.funerarius.coldhealing;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.TickEvent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
+import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,10 +16,8 @@ public class MelatoninEvents {
 
     @SubscribeEvent
     public static void onSleepLocationCheck(SleepingLocationCheckEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (player.getPersistentData().getBoolean("MelatoninSleep")) {
-                event.setResult(Event.Result.ALLOW);
-            }
+        if (event.getEntity() instanceof Player player && player.getPersistentData().getBoolean("MelatoninSleep")) {
+            event.setResult(Event.Result.ALLOW);
         }
     }
 
@@ -32,28 +30,26 @@ public class MelatoninEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && !event.player.level().isClientSide) {
-            Player player = event.player;
-            CompoundTag data = player.getPersistentData();
+    public static void onSleepFinished(SleepFinishedTimeEvent event) {
+        Level level = (Level) event.getLevel();
+        long currentWorldTime = level.getDayTime();
+        long targetTime = -1;
 
-            if (player.isSleeping() && data.getBoolean("MelatoninSleep")) {
-
-                int sleepTimer = data.getInt("MelatoninTimer");
-                sleepTimer++;
-
-                if (sleepTimer >= 100) {
-                    ServerLevel level = (ServerLevel) player.level();
-
-                    level.setDayTime(level.getDayTime() + 8500);
-
-                    player.stopSleeping();
-
-                    data.remove("MelatoninSleep");
-                    data.remove("MelatoninTimer");
-                } else {
-                    data.putInt("MelatoninTimer", sleepTimer);
+        for (Player player : level.players()) {
+            if (player.isSleeping() && player.getPersistentData().getBoolean("MelatoninSleep")) {
+                long playerTarget = player.getPersistentData().getLong("MelatoninTargetTime");
+                // Se houver múltiplos jogadores, pegamos o que quer acordar mais cedo
+                if (targetTime == -1 || playerTarget < targetTime) {
+                    targetTime = playerTarget;
                 }
+            }
+        }
+
+        if (targetTime != -1) {
+            long timeJump = targetTime - currentWorldTime;
+
+            if (timeJump > 0) {
+                event.setTimeAddition(currentWorldTime + timeJump);
             }
         }
     }
@@ -62,10 +58,9 @@ public class MelatoninEvents {
     public static void onWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         CompoundTag data = player.getPersistentData();
-
         if (data.getBoolean("MelatoninSleep")) {
             data.remove("MelatoninSleep");
-            data.remove("MelatoninTimer");
+            data.remove("MelatoninTargetTime");
         }
     }
 }

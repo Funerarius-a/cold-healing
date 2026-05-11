@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -41,7 +42,7 @@ public class MelatoninItem extends Item {
 
         CompoundTag tag = stack.getOrCreateTag();
         tag.putInt("HealTimer", 0);
-        tag.putInt("MaxHealTimer", 40); // Conecta com a sua barra de Progresso na Tela!
+        tag.putInt("MaxHealTimer", 40);
 
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
@@ -73,7 +74,12 @@ public class MelatoninItem extends Item {
 
                 serverPlayer.getPersistentData().putBoolean("MelatoninSleep", true);
 
+                long wakeTime = level.getDayTime() + 10000;
+                serverPlayer.getPersistentData().putLong("MelatoninTargetTime", wakeTime);
+
                 serverPlayer.startSleeping(serverPlayer.blockPosition());
+
+                ((ServerLevel)level).updateSleepingPlayerList();
 
                 serverPlayer.getCooldowns().addCooldown(this, 2400);
             }
