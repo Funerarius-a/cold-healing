@@ -7,7 +7,6 @@
 
   "item.coldhealing.ibuprofen": "Ibuprofen",
   "tooltip.coldhealing.ibuprofen.tooltip": "The ibuprofen is used to relief pain, with side effects",
-  "message.coldhealing.incompatible_effect": "Cannot use this due to active conditions",
 
   "item.coldhealing.splint": "Splint",
   "tooltip.coldhealing.splint.tooltip": "The Splint is used to immobilize injured bones, joints, or soft tissues",
@@ -37,6 +36,8 @@
   "tooltip.coldhealing.melatonin.tooltip": "The melatonin is used to induce deep sleep, with mild drowsiness upon waking",
 
   "curios.identifier.stim_pouch": "Pouch",
+
+  "message.coldhealing.incompatible_effect": "Cannot use due to active conditions",
 
   "creativetab.coldhealing_tab": "Cold Healing Items"
 }

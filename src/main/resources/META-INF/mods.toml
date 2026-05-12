@@ -72,4 +72,17 @@ description='''${mod_description}'''
 #[features.${mod_id}]
 #openGLVersion="[3.2,)"
 
-config = "mixins.coldhealing.json"
+[[dependencies.${mod_id}]]
+modId="curios"
+mandatory=true
+versionRange="[5.9.1,)"
+ordering="BEFORE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="lso"
+mandatory=false
+versionRange="[2.4,)"
+ordering="AFTER"
+side="BOTH"
+
