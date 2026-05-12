@@ -44,3 +44,10 @@ Built with the modern modding ecosystem in mind, **Cold Healing** features nativ
   
 *   **STIM POUCH**: A specialized container that can store up to 6 stimulants.
     *   *Curios Compatibility:* When equipped in a Curios slot, stimulants inside will be **used automatically** when the player hits specific health or effect thresholds.
+
+---
+
+### ⚖️ License
+**Cold Healing** is protected under **All Rights Reserved**. 
+*   **Modpacks:** You are free to include this mod in any non-commercial modpacks.
+*   **Redistribution:** Redistribution on other websites or selling the mod/assets is strictly prohibited.
