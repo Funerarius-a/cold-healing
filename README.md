@@ -42,7 +42,7 @@ Built with the modern modding ecosystem in mind, **Cold Healing** features nativ
 ### 🧪 Miscellaneous
 *   **MELATONIN BOTTLE**: Allows the player to sleep anywhere, at any time, with varied sleep durations.
   
-*   **STIM POUCH**: A specialized container that can store up to 6 stimulants.
+*   **STIM POUCH**: A container that can store up to 6 stimulants.
     *   *Curios Compatibility:* When equipped in a Curios slot, stimulants inside will be **used automatically** when the player hits specific health or effect thresholds.
 
 ---
