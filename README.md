@@ -51,3 +51,4 @@ Built with the modern modding ecosystem in mind, **Cold Healing** features nativ
 **Cold Healing** is protected under **All Rights Reserved**. 
 *   **Modpacks:** You are free to include this mod in any non-commercial modpacks.
 *   **Redistribution:** Redistribution on other websites or selling the mod/assets is strictly prohibited.
+*   **© 2026 Funerarius**
